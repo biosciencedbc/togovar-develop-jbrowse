@@ -12,6 +12,12 @@
    `iframeDialog` popup. Thanks to @mictadlo for the suggestion (issue
    #1365)
 
+ * Added ability for vertical scroll events to bubble out of the jbrowse
+   div or iframe, which can be more intuitive in embedded jbrowse's.
+   Otherwise, the GenomeView stopped all vertical scroll events in it's
+   area. If you need the old behavior use `alwaysStopScrollBubble`.
+   (@cmdcolin, pull #1373)
+
 ## Bug fixes
 
  * Fixed a long standing issue with BigWig files not accessing the
