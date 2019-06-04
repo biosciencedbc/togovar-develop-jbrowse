@@ -1,3 +1,0 @@
-[submodule "plugins/MultiBigWig"]
-	path = plugins/MultiBigWig
-	url = https://github.com/elsiklab/multibigwig.git
