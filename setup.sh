@@ -142,76 +142,76 @@ fi;
 ) >>setup.log 2>&1;
 done_message "" "As a first troubleshooting step, make sure development libraries and header files for GD, Zlib, and libpng are installed and try again.";
 
-log_echo
-log_echo -n "Formatting Volvox example data ...";
-(   set -e;
-    set -x;
+# log_echo
+# log_echo -n "Formatting Volvox example data ...";
+# (   set -e;
+#     set -x;
 
-    # format volvox
-    rm -rf sample_data/json/volvox;
-    bin/prepare-refseqs.pl --fasta docs/tutorial/data_files/volvox.fa --out sample_data/json/volvox;
-    if [ $SUPPRESS_BIODB_TO_JSON -eq 1 ]; then
-        echo "Not running biodb-to-json.pl for Volvox";
-    else
-        bin/biodb-to-json.pl -v --conf docs/tutorial/conf_files/volvox.json --out sample_data/json/volvox;
-    fi
+#     # format volvox
+#     rm -rf sample_data/json/volvox;
+#     bin/prepare-refseqs.pl --fasta docs/tutorial/data_files/volvox.fa --out sample_data/json/volvox;
+#     if [ $SUPPRESS_BIODB_TO_JSON -eq 1 ]; then
+#         echo "Not running biodb-to-json.pl for Volvox";
+#     else
+#         bin/biodb-to-json.pl -v --conf docs/tutorial/conf_files/volvox.json --out sample_data/json/volvox;
+#     fi
 
-    cat \
-        docs/tutorial/data_files/volvox_microarray.bw.conf \
-        docs/tutorial/data_files/volvox_sine.bw.conf \
-        docs/tutorial/data_files/volvox-sorted.bam.conf \
-        docs/tutorial/data_files/volvox-sorted.bam.coverage.conf \
-        docs/tutorial/data_files/volvox-paired.bam.conf \
-        docs/tutorial/data_files/volvox.vcf.conf \
-        docs/tutorial/data_files/volvox_fromconfig.conf \
-        docs/tutorial/data_files/volvox.gff3.conf \
-        docs/tutorial/data_files/volvox.gtf.conf \
-        docs/tutorial/data_files/volvox.sort.gff3.gz.conf \
-        docs/tutorial/data_files/volvox.sort.gff3.gz.htmlfeatures.conf \
-        docs/tutorial/data_files/volvox.sort.bed.gz.conf \
-        docs/tutorial/data_files/gvcf.vcf.gz.conf \
-        docs/tutorial/data_files/bookmarks.conf \
-        docs/tutorial/data_files/volvox.subsubparts.gff3.conf \
-        docs/tutorial/data_files/volvox-long-reads.fastq.sorted.bam.conf \
-        docs/tutorial/data_files/volvox-long-reads.fastq.sorted.cram.conf \
-        docs/tutorial/data_files/volvox.bb.conf \
-        docs/tutorial/data_files/volvox-sorted.cram.conf \
-        docs/tutorial/data_files/volvox-sv.bam.conf \
-        docs/tutorial/data_files/volvox-sv.cram.conf \
-    >> sample_data/json/volvox/tracks.conf
+#     cat \
+#         docs/tutorial/data_files/volvox_microarray.bw.conf \
+#         docs/tutorial/data_files/volvox_sine.bw.conf \
+#         docs/tutorial/data_files/volvox-sorted.bam.conf \
+#         docs/tutorial/data_files/volvox-sorted.bam.coverage.conf \
+#         docs/tutorial/data_files/volvox-paired.bam.conf \
+#         docs/tutorial/data_files/volvox.vcf.conf \
+#         docs/tutorial/data_files/volvox_fromconfig.conf \
+#         docs/tutorial/data_files/volvox.gff3.conf \
+#         docs/tutorial/data_files/volvox.gtf.conf \
+#         docs/tutorial/data_files/volvox.sort.gff3.gz.conf \
+#         docs/tutorial/data_files/volvox.sort.gff3.gz.htmlfeatures.conf \
+#         docs/tutorial/data_files/volvox.sort.bed.gz.conf \
+#         docs/tutorial/data_files/gvcf.vcf.gz.conf \
+#         docs/tutorial/data_files/bookmarks.conf \
+#         docs/tutorial/data_files/volvox.subsubparts.gff3.conf \
+#         docs/tutorial/data_files/volvox-long-reads.fastq.sorted.bam.conf \
+#         docs/tutorial/data_files/volvox-long-reads.fastq.sorted.cram.conf \
+#         docs/tutorial/data_files/volvox.bb.conf \
+#         docs/tutorial/data_files/volvox-sorted.cram.conf \
+#         docs/tutorial/data_files/volvox-sv.bam.conf \
+#         docs/tutorial/data_files/volvox-sv.cram.conf \
+#     >> sample_data/json/volvox/tracks.conf
 
-    bin/add-json.pl '{ "dataset_id": "volvox", "include": [ "../../raw/volvox/functions.conf" ] }' sample_data/json/volvox/trackList.json
-    bin/add-json.pl '{ "dataset_id": "volvox", "plugins": [ "HideTrackLabels", "NeatCanvasFeatures", "NeatHTMLFeatures" ] }' sample_data/json/volvox/trackList.json
-    bin/flatfile-to-json.pl --bed docs/tutorial/data_files/volvox_segment.bed --out sample_data/json/volvox --trackLabel ChromHMM --trackType CanvasFeatures --clientConfig '{"color": "{chromHMM}", "strandArrow": false}' --config '{"displayMode": "collapsed", "enableCollapsedMouseover": true, "category": "Miscellaneous" }';
-    bin/generate-names.pl --safeMode -v --out sample_data/json/volvox;
+#     bin/add-json.pl '{ "dataset_id": "volvox", "include": [ "../../raw/volvox/functions.conf" ] }' sample_data/json/volvox/trackList.json
+#     bin/add-json.pl '{ "dataset_id": "volvox", "plugins": [ "HideTrackLabels", "NeatCanvasFeatures", "NeatHTMLFeatures" ] }' sample_data/json/volvox/trackList.json
+#     bin/flatfile-to-json.pl --bed docs/tutorial/data_files/volvox_segment.bed --out sample_data/json/volvox --trackLabel ChromHMM --trackType CanvasFeatures --clientConfig '{"color": "{chromHMM}", "strandArrow": false}' --config '{"displayMode": "collapsed", "enableCollapsedMouseover": true, "category": "Miscellaneous" }';
+#     bin/generate-names.pl --safeMode -v --out sample_data/json/volvox;
 
-    mkdir -p sample_data/raw;
-    if [ ! -e sample_data/raw/volvox ]; then
-        ln -s ../../docs/tutorial/data_files sample_data/raw/volvox;
-    fi;
-    ln -sf ../../docs/tutorial/conf_files/volvox.json sample_data/raw/;
+#     mkdir -p sample_data/raw;
+#     if [ ! -e sample_data/raw/volvox ]; then
+#         ln -s ../../docs/tutorial/data_files sample_data/raw/volvox;
+#     fi;
+#     ln -sf ../../docs/tutorial/conf_files/volvox.json sample_data/raw/;
 
-    touch sample_data/json/volvox/successfully_run;
+#     touch sample_data/json/volvox/successfully_run;
 
-) >>setup.log 2>&1
-done_message "To see the volvox example data, browse to http://your.jbrowse.root/index.html?data=sample_data/json/volvox.";
+# ) >>setup.log 2>&1
+# done_message "To see the volvox example data, browse to http://your.jbrowse.root/index.html?data=sample_data/json/volvox.";
 
-log_echo
-log_echo -n "Formatting Yeast example data ...";
-(   set -e;
-    set -x;
+# log_echo
+# log_echo -n "Formatting Yeast example data ...";
+# (   set -e;
+#     set -x;
 
-    # format volvox
-    rm -rf sample_data/json/yeast/;
-    bin/prepare-refseqs.pl --fasta sample_data/raw/yeast_scaffolds/chr1.fa.gz --fasta sample_data/raw/yeast_scaffolds/chr2.fa.gzip  --out sample_data/json/yeast/;
-    gunzip -c sample_data/raw/yeast_scaffolds/chr1.fa.gz sample_data/raw/yeast_scaffolds/chr2.fa.gzip > sample_data/raw/yeast_chr1+2/yeast.fa;
-    if [ $SUPPRESS_BIODB_TO_JSON -eq 1 ]; then
-        echo "Not running biodb-to-json.pl for Yeast";
-    else
-        bin/biodb-to-json.pl --conf sample_data/raw/yeast.json --out sample_data/json/yeast/;
-    fi
-    bin/add-json.pl '{ "dataset_id": "yeast" }' sample_data/json/yeast/trackList.json
-    bin/add-json.pl '{ "dataset_id": "yeast",  "plugins": [ "NeatHTMLFeatures","NeatCanvasFeatures","HideTrackLabels" ] }' sample_data/json/yeast/trackList.json
-    bin/generate-names.pl --dir sample_data/json/yeast/;
-) >>setup.log 2>&1;
-done_message "To see the yeast example data, browse to http://your.jbrowse.root/index.html?data=sample_data/json/yeast.";
+#     # format volvox
+#     rm -rf sample_data/json/yeast/;
+#     bin/prepare-refseqs.pl --fasta sample_data/raw/yeast_scaffolds/chr1.fa.gz --fasta sample_data/raw/yeast_scaffolds/chr2.fa.gzip  --out sample_data/json/yeast/;
+#     gunzip -c sample_data/raw/yeast_scaffolds/chr1.fa.gz sample_data/raw/yeast_scaffolds/chr2.fa.gzip > sample_data/raw/yeast_chr1+2/yeast.fa;
+#     if [ $SUPPRESS_BIODB_TO_JSON -eq 1 ]; then
+#         echo "Not running biodb-to-json.pl for Yeast";
+#     else
+#         bin/biodb-to-json.pl --conf sample_data/raw/yeast.json --out sample_data/json/yeast/;
+#     fi
+#     bin/add-json.pl '{ "dataset_id": "yeast" }' sample_data/json/yeast/trackList.json
+#     bin/add-json.pl '{ "dataset_id": "yeast",  "plugins": [ "NeatHTMLFeatures","NeatCanvasFeatures","HideTrackLabels" ] }' sample_data/json/yeast/trackList.json
+#     bin/generate-names.pl --dir sample_data/json/yeast/;
+# ) >>setup.log 2>&1;
+# done_message "To see the yeast example data, browse to http://your.jbrowse.root/index.html?data=sample_data/json/yeast.";
